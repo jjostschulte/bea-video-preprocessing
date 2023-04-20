@@ -156,10 +156,15 @@ def get_key_from_value(d, val):
 
 if __name__ == '__main__':
     t3s = create_t3_millis_array()
-    print_mclick_times(7)
+    # calc_vid_start(6, "00:13:03", 1664926163248, True)
+    # calc_vid_start(7, "00:12:13", 1664929671091, True)
+    # calc_vid_start(8, "00:05:28", 1664932948069, True)
+    # calc_vid_start(9, "00:27:44", 1664937293817, True)
+    # calc_vid_start(10, "00:04:37", 1664940776603, True)
+    # calc_vid_start(11, "00:09:41", 1664944065813, True)
+    # calc_vid_start(15, "00:17:12", 1664961815381, True)
+    # calc_vid_start(16, "00:14:29", 1664966044062, True)
+    # calc_vid_start(20, "00:10:19", 1665113477027, True)
+    # calc_vid_start(21, "00:15:30", 1665362317978, True)
 
-
-    calc_vid_start(6, "00:13:03", 1664926163248, True)
-    calc_vid_start(7, "00:12:13", 1664929671091, True)
-    calc_vid_start(8, "00:05:28", 1664932948069, True)
-
+    print_mclick_times()
