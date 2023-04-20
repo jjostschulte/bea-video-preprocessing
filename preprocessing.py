@@ -100,14 +100,14 @@ def print_mclick_times(user):
     print("=================================================================")
 
 
-def calc_vid_start(user, click_time, t3_millis, print_command=False):
+def calc_vid_start(user, click_time, t3_millis, print_command=True):
     """Calculates the bea start point in a video from an identified mouseclick in the video.
 
     Args:
         user (int): Accepts user number or session_id
         click_time (String): Video timestamp of the mouse click in the format "HH:MM:SS"
         t3_millis (int): Timestamp of the identified mouseclick from session data in UNIX time, e.g. 1664926163248
-        print_to_console (bool): Whether the Video Start is to be printed
+        print_command (bool): Whether the Video Start is to be printed
     """
     if user>60:
         user = users[user]
@@ -166,5 +166,7 @@ if __name__ == '__main__':
     # calc_vid_start(16, "00:14:29", 1664966044062, True)
     # calc_vid_start(20, "00:10:19", 1665113477027, True)
     # calc_vid_start(21, "00:15:30", 1665362317978, True)
-
-    print_mclick_times()
+    # calc_vid_start(22, "00:05:00", 1665365764399)
+    # calc_vid_start(23, "00:08:30", 1665369048496)
+    calc_vid_start(24, "00:23:23", 1665373310384)
+    print_mclick_times(24)
