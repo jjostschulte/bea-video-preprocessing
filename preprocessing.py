@@ -2,6 +2,7 @@ from datetime import datetime, timezone, timedelta
 from dateutil import parser
 import pandas as pd
 import time
+import os
 
 speaking_time = 5000  # milliseconds
 
@@ -73,7 +74,7 @@ users = {
     11874: 59,
     11881: 60
 }
-
+input_video_names = []
 t3s = []
 
 
@@ -130,7 +131,7 @@ def print_trim_command(user, video_start):
         str(video_start.strftime("%H:%M:%S"))+
         " -to "+
         str(video_end.strftime("%H:%M:%S"))+
-        " -i x.mp4 -c copy "+
+        " -i {} -c copy ".format(input_video_names[user-1] if len(input_video_names)==60 else "x.mp4")+
         str(user).zfill(3)+ "-"+ str(get_key_from_value(users, user))+
         ".mp4"
     )
@@ -155,6 +156,13 @@ def get_key_from_value(d, val):
 
 
 if __name__ == '__main__':
+
+    bea_video_path = '/Users/jonas/Movies/BEA-Videos'
+    file_names = [f for f in os.listdir(bea_video_path) if f.endswith('２０２２.mp4')]
+    file_names.sort()
+    print(len(file_names), file_names)
+    input_video_names=file_names
+
     t3s = create_t3_millis_array()
     # calc_vid_start(6, "00:13:03", 1664926163248, True)
     # calc_vid_start(7, "00:12:13", 1664929671091, True)
