@@ -112,7 +112,7 @@ def print_mclick_times(user, video_start=None):
     print("=================================================================")
 
 
-def calc_vid_start(user, click_time, t3_millis, print_command=True):
+def calc_vid_start(user, click_time, t3_millis, print_command=True, print_mclicks=True):
     """Calculates the bea start point in a video from an identified mouseclick in the video.
 
     Args:
@@ -120,6 +120,7 @@ def calc_vid_start(user, click_time, t3_millis, print_command=True):
         click_time (String): Video timestamp of the mouse click in the format "HH:MM:SS"
         t3_millis (int): Timestamp of the identified mouseclick from session data in UNIX time, e.g. 1664926163248
         print_command (bool): Whether the Video Start is to be printed
+        print_mclicks (bool):
     """
     if user>60:
         user = users[user]
@@ -129,6 +130,8 @@ def calc_vid_start(user, click_time, t3_millis, print_command=True):
     video_start = click_time-delta
     if print_command:
         print_trim_command(user, video_start)
+    if print_mclicks:
+        print_mclick_times(user, video_start)
     return video_start
 
 
@@ -171,7 +174,7 @@ if __name__ == '__main__':
     bea_video_path = '/Users/jonas/Movies/BEA-Videos'
     file_names = [f for f in os.listdir(bea_video_path) if f.endswith('２０２２.mp4')]
     file_names.sort()
-    print(len(file_names), file_names)
+    print(len(file_names), "files")  #, file_names)
     input_video_names=file_names
 
     t3s = create_t3_millis_array()
@@ -197,6 +200,6 @@ if __name__ == '__main__':
     # calc_vid_start(32, "00:30:55", 1665459812274)
     # calc_vid_start(33, "00:05:10", 1665462968357)
     # calc_vid_start(34, "00:07:20", 1665467364585)
-    vidstart = calc_vid_start(35, "00:08:32", 1665470184176)
+    # calc_vid_start(35, "00:08:32", 1665470184176)
+    calc_vid_start(36, "00:19:15", 1665473863481)
 
-    print_mclick_times(35, vidstart)
