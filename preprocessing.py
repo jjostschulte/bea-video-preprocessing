@@ -174,7 +174,7 @@ if __name__ == '__main__':
     bea_video_path = '/Users/jonas/Movies/BEA-Videos'
     file_names = [f for f in os.listdir(bea_video_path) if f.endswith('２０２２.mp4')]
     file_names.sort()
-    print(len(file_names), "files")  #, file_names)
+    print(len(file_names), "mp4-files in folder")  #, file_names)
     input_video_names=file_names
 
     t3s = create_t3_millis_array()
@@ -201,5 +201,7 @@ if __name__ == '__main__':
     # calc_vid_start(33, "00:05:10", 1665462968357)
     # calc_vid_start(34, "00:07:20", 1665467364585)
     # calc_vid_start(35, "00:08:32", 1665470184176)
-    calc_vid_start(36, "00:19:15", 1665473863481)
+    # calc_vid_start(36, "00:19:15", 1665473863481)
+    # calc_vid_start(37, "00:24:31", 1665481524958) # a bit too early like this
+    calc_vid_start(37, "00:25:07", 1665481509648)
 
