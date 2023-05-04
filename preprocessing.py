@@ -186,6 +186,7 @@ if __name__ == '__main__':
     # calc_vid_start(31, "00:03:58", 1665455991577)
     # calc_vid_start(32, "00:30:55", 1665459812274)
     # calc_vid_start(33, "00:05:10", 1665462968357)
-    calc_vid_start(34, "00:07:20", 1665467364585)
+    # calc_vid_start(34, "00:07:20", 1665467364585)
+    calc_vid_start(35, "00:08:32", 1665470184176)
 
-    print_mclick_times(34)
+    print_mclick_times(35)
