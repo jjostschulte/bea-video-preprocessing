@@ -91,14 +91,24 @@ def time_from_start(startms, timems):
     return datetime.fromtimestamp((timems-startms)/1000)-datetime.fromtimestamp(0)
 
 
-def print_mclick_times(user):
+def print_mclick_times(user, video_start=None):
+    """
+    :param user: user number
+    :param video_start: if given, timestamp in original video and cut video will be given
+    :return: None
+    """
     if user>60:
         user = users[user]
     timelist=t3s[user]
     bea_start_ms=bea_ms[user]
     print("=== Printing User Starts Talking Timestamps (Participant "+str(user).zfill(3)+") ===")
-    for t in timelist:
-        print(time_from_start(bea_start_ms, t-speaking_time))
+    if video_start:
+        for t in timelist:
+            tfs = time_from_start(bea_start_ms, t-speaking_time)
+            print("old:", str((tfs+video_start).strftime("%H:%M:%S.%f")), "\t new:",str(tfs))
+    else:
+        for t in timelist:
+            print(time_from_start(bea_start_ms, t-speaking_time))
     print("=================================================================")
 
 
@@ -187,6 +197,6 @@ if __name__ == '__main__':
     # calc_vid_start(32, "00:30:55", 1665459812274)
     # calc_vid_start(33, "00:05:10", 1665462968357)
     # calc_vid_start(34, "00:07:20", 1665467364585)
-    calc_vid_start(35, "00:08:32", 1665470184176)
+    vidstart = calc_vid_start(35, "00:08:32", 1665470184176)
 
-    print_mclick_times(35)
+    print_mclick_times(35, vidstart)
