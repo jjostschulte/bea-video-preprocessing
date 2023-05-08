@@ -1,4 +1,6 @@
 from datetime import datetime, timezone, timedelta
+
+import pandas
 from dateutil import parser
 import pandas as pd
 import time
@@ -76,6 +78,8 @@ users = {
     11881: 60
 }
 input_video_names = []
+t1s = []
+t2s = []
 t3s = []
 
 
@@ -151,15 +155,22 @@ def print_trim_command(user, video_start):
     )
 
 
-def create_t3_millis_array():
-    df = pd.read_csv("dialogue_feedback_with_session.csv", skipinitialspace=True, usecols=['t3_millis', 'session_id'])
+def create_millis_arrays():
+    df = pd.read_csv("dialogue_feedback_with_session.csv", skipinitialspace=True,
+                     usecols=['t1_millis','t2_millis','t3_millis', 'session_id'])
     df = df.sort_values('t3_millis')
-    arr = []
+    arr1 = []
+    arr2 = []
+    arr3 = []
     for i in range(61):
-        arr.append([])
+        arr1.append([])
+        arr2.append([])
+        arr3.append([])
     for session, user in users.items():
-        arr[user] = df.loc[df['session_id'] == session]['t3_millis'].to_list()
-    return arr
+        arr1[user] = df.loc[df['session_id'] == session]['t1_millis'].to_list()
+        arr2[user] = df.loc[df['session_id'] == session]['t2_millis'].to_list()
+        arr3[user] = df.loc[df['session_id'] == session]['t3_millis'].to_list()
+    return arr1, arr2, arr3
 
 
 def get_key_from_value(d, val):
@@ -167,6 +178,59 @@ def get_key_from_value(d, val):
     if keys:
         return keys[0]
     return None
+
+def split_video(user):
+    if user>60:
+        user = users[user]
+    folder_name = str(user).zfill(3) + "-" + str(get_key_from_value(users, user))
+    vid_name = folder_name + ".mp4"
+    vid_dir = "/Users/jonas/Movies/BEA-Videos/cut"
+    vid_path = vid_dir + "/" + vid_name
+    if not os.path.exists(vid_path):
+        print("Video not found")
+        return None
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+    else:
+        user_input = input('Folder already exists. Do you want to overwrite? (y/n): ')
+        if user_input.lower() != 'y':
+            return None
+    print("doing stuff")
+    df = pd.read_csv("dialogue_feedback_with_session.csv", skipinitialspace=True)
+    df = df.loc[df['session_id'] == get_key_from_value(users, user)]
+    df = df.sort_values('t1_millis')  # actually shouldn't matter if sort by id, or any timestamp column
+    bea_start = bea_ms[user]
+    df['t1_millis'] = df['t1_millis'] - bea_start
+    df['t2_millis'] = df['t2_millis'] - bea_start
+    df['t3_millis'] = df['t3_millis'] - bea_start
+    commands = []
+    for index, row in df.iterrows():
+        # bea speaking
+        commands.append("ffmpeg -ss " +
+                        str(datetime.utcfromtimestamp(row['t1_millis'] / 1000).strftime("%H:%M:%S")) +
+                        " -to " +
+                        str(datetime.utcfromtimestamp(row['t2_millis'] / 1000).strftime("%H:%M:%S")) +
+                        " -i " + vid_path +
+                        " -c copy " + folder_name + "/" + "bea-" +
+                        str(int(row['id'])) + "-" + str(int(row['performed_move_id'])) + "-" + str(int(row['session_id']))+
+                        "-Q1_" + str(int(row['question_one'])) +
+                        "-Q2_" + str(int(row['question_two'])) +
+                        "-Q3_" + str(int(row['question_three'])) +
+                        ".mp4")
+        # user speaking
+        commands.append("ffmpeg -ss " +
+                        str(datetime.utcfromtimestamp(row['t3_millis'] / 1000 - 5).strftime("%H:%M:%S")) +
+                        " -to " +
+                        str(datetime.utcfromtimestamp(row['t3_millis'] / 1000).strftime("%H:%M:%S")) +
+                        " -i " + vid_path +
+                        " -c copy " + folder_name + "/" + "usr-" +
+                        str(int(row['id'])) + "-" + str(int(row['performed_move_id'])) + "-" + str(int(row['session_id']))+
+                        "-Q1_" + str(int(row['question_one'])) +
+                        "-Q2_" + str(int(row['question_two'])) +
+                        "-Q3_" + str(int(row['question_three'])) +
+                        ".mp4")
+    for command in commands:
+        os.system(command)
 
 
 if __name__ == '__main__':
@@ -177,7 +241,7 @@ if __name__ == '__main__':
     print(len(file_names), "mp4-files in folder")  #, file_names)
     input_video_names=file_names
 
-    t3s = create_t3_millis_array()
+    t1s, t2s, t3s = create_millis_arrays()
     # calc_vid_start(6, "00:13:03", 1664926163248, True)
     # calc_vid_start(7, "00:12:13", 1664929671091, True)
     # calc_vid_start(8, "00:05:28", 1664932948069, True)
@@ -203,5 +267,6 @@ if __name__ == '__main__':
     # calc_vid_start(35, "00:08:32", 1665470184176)
     # calc_vid_start(36, "00:19:15", 1665473863481)
     # calc_vid_start(37, "00:24:31", 1665481524958) # a bit too early like this
-    calc_vid_start(37, "00:25:07", 1665481509648)
+    # calc_vid_start(37, "00:25:07", 1665481509648)
 
+    split_video(6)
