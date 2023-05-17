@@ -205,11 +205,15 @@ def split_video(user):
     df['t3_millis'] = df['t3_millis'] - bea_start
     commands = []
     for index, row in df.iterrows():
+        bea_part_start = str(datetime.utcfromtimestamp(row['t1_millis'] / 1000).strftime("%H:%M:%S"))
+        bea_part_end = str(datetime.utcfromtimestamp(row['t2_millis'] / 1000).strftime("%H:%M:%S"))
+        user_part_start = str(datetime.utcfromtimestamp(row['t3_millis'] / 1000 - 5).strftime("%H:%M:%S"))
+        user_part_end = str(datetime.utcfromtimestamp(row['t3_millis'] / 1000).strftime("%H:%M:%S"))
         # bea speaking
         commands.append("ffmpeg -ss " +
-                        str(datetime.utcfromtimestamp(row['t1_millis'] / 1000).strftime("%H:%M:%S")) +
+                        bea_part_start +
                         " -to " +
-                        str(datetime.utcfromtimestamp(row['t2_millis'] / 1000).strftime("%H:%M:%S")) +
+                        user_part_start +  # includes time user thinks/processing beas argument until clicking to answer
                         " -i " + vid_path +
                         " -c copy " + folder_name + "/" + "bea-" +
                         str(int(row['id'])) + "-" + str(int(row['performed_move_id'])) + "-" + str(int(row['session_id']))+
@@ -219,9 +223,9 @@ def split_video(user):
                         ".mp4")
         # user speaking
         commands.append("ffmpeg -ss " +
-                        str(datetime.utcfromtimestamp(row['t3_millis'] / 1000 - 5).strftime("%H:%M:%S")) +
+                        user_part_start +
                         " -to " +
-                        str(datetime.utcfromtimestamp(row['t3_millis'] / 1000).strftime("%H:%M:%S")) +
+                        user_part_end +
                         " -i " + vid_path +
                         " -c copy " + folder_name + "/" + "usr-" +
                         str(int(row['id'])) + "-" + str(int(row['performed_move_id'])) + "-" + str(int(row['session_id']))+
@@ -243,7 +247,8 @@ if __name__ == '__main__':
 
     t1s, t2s, t3s = create_millis_arrays()
     # calc_vid_start(6, "00:13:03", 1664926163248, True)
-    # calc_vid_start(7, "00:12:13", 1664929671091, True)
+    # calc_vid_start(7, "00:12:13", 1664929671091, True)  # 1s late
+    # calc_vid_start(7, "00:12:14", 1664929671091, True)
     # calc_vid_start(8, "00:05:28", 1664932948069, True)
     # calc_vid_start(9, "00:27:44", 1664937293817, True)
     # calc_vid_start(10, "00:04:37", 1664940776603, True)
@@ -269,4 +274,4 @@ if __name__ == '__main__':
     # calc_vid_start(37, "00:24:31", 1665481524958) # a bit too early like this
     # calc_vid_start(37, "00:25:07", 1665481509648)
 
-    split_video(6)
+    split_video(7)
