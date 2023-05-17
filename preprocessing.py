@@ -1,9 +1,6 @@
-from datetime import datetime, timezone, timedelta
-
-import pandas
+from datetime import datetime
 from dateutil import parser
 import pandas as pd
-import time
 import os
 
 speaking_time = 5000  # milliseconds
