@@ -247,10 +247,14 @@ if __name__ == '__main__':
     # calc_vid_start(7, "00:12:13", 1664929671091, True)  # 1s late
     # calc_vid_start(7, "00:12:14", 1664929671091, True)
     # calc_vid_start(8, "00:05:28", 1664932948069, True)
-    # calc_vid_start(9, "00:27:44", 1664937293817, True)
-    # calc_vid_start(10, "00:04:37", 1664940776603, True)
-    # calc_vid_start(11, "00:09:41", 1664944065813, True)
-    # calc_vid_start(15, "00:17:12", 1664961815381, True)
+    # calc_vid_start(9, "00:27:44", 1664937293817, True) # 2s late
+    # calc_vid_start(9, "00:27:46", 1664937293817, True)
+    # calc_vid_start(10, "00:04:37", 1664940776603, True) #1s late
+    # calc_vid_start(10, "00:04:38", 1664940776603, True)
+    # calc_vid_start(11, "00:09:41", 1664944065813, True) # 1s late
+    # calc_vid_start(11, "00:09:42", 1664944065813, True)
+    # calc_vid_start(15, "00:17:12", 1664961815381, True) # 2s late
+    # calc_vid_start(15, "00:17:14", 1664961815381, True)
     # calc_vid_start(16, "00:14:29", 1664966044062, True)
     # calc_vid_start(20, "00:10:19", 1665113477027, True)
     # calc_vid_start(21, "00:15:30", 1665362317978, True)
@@ -271,4 +275,4 @@ if __name__ == '__main__':
     # calc_vid_start(37, "00:24:31", 1665481524958) # a bit too early like this
     # calc_vid_start(37, "00:25:07", 1665481509648)
 
-    split_video(7)
+    #split_video(9)
