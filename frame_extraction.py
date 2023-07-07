@@ -5,6 +5,7 @@ from loguru import logger
 import matplotlib.pyplot as plt
 import pandas as pd
 import re
+import datetime
 
 
 def extract_frames(video_path, save_images_path=None, target_fps=5):
@@ -26,10 +27,8 @@ def extract_frames(video_path, save_images_path=None, target_fps=5):
         if video_path.split("/")[-1].startswith("usr"):  # 5-second video where user is speaking
             # times = [1, 2.5, 4]  # Set the time points to extract frames
             times = np.arange(0, 5, 1 / target_fps)
-            print(times)
         else:  # bea talking video of any duration
             duration = get_video_duration(video)
-            print(duration)
             if duration == 0:
                 logger.error(f"Video {video_path} has duration 0. No frames can be extracted.")
                 return []
@@ -59,7 +58,7 @@ def extract_frames(video_path, save_images_path=None, target_fps=5):
                     os.makedirs(save_images_path)
                 img_name = f'{video_path[10:-4]}_frame_{str(frame_idx).zfill(3)}.png'
                 save_path = os.path.join(save_images_path, img_name)
-                print(save_path)
+                # print(save_path)
 
                 # plt.imshow(frame)
                 # plt.imsave(save_path, frame)
@@ -107,7 +106,6 @@ def frame_data_df_from_folder(folder_path):
 
     for file_name in file_names:
         match = re.search(r"(bea|usr)-(\d{1,4})-(\d{1,5})-(\d{1,5})-Q1_(\d)-Q2_(\d)-Q3_(\d)_frame_(\d{1,3})", file_name)
-        print(match)
         if match:
             category = match.group(1)
             move_id = int(match.group(2))
@@ -126,17 +124,42 @@ def frame_data_df_from_folder(folder_path):
                             "q3": q3}
             df = pd.concat([df, pd.DataFrame([new_row])],
                            ignore_index=True)
-    print(df)
     return df
 
+
+def get_all_user_folders():
+    """
+    :return: list of all user folders in the dataset
+    """
+    all_folders = os.listdir()
+    user_folders = [folder for folder in all_folders if folder.startswith("0")]
+    return sorted(user_folders)
+
+
+def extract_all_frames(frame_target_folder):
+    """
+    Create all frames for all videos in the dataset
+    :return: void
+    """
+    user_folders = get_all_user_folders()
+    for user_folder in user_folders:
+        logger.info(f"Processing user folder {user_folder}")
+        video_paths = [os.path.join(user_folder, video_name) for video_name in os.listdir(user_folder) if video_name.endswith('.mp4')]
+        for video_path in sorted(video_paths):
+            # save frames to folder
+            extract_frames(video_path, save_images_path=frame_target_folder)
 
 
 if __name__ == '__main__':
     vid_path = "009-11126/bea-301-14215-11126-Q1_1-Q2_1-Q3_2.mp4"
     vid_path = "009-11126/bea-302-14217-11126-Q1_2-Q2_2-Q3_2.mp4"
-    frame_folder = "frames"
+    frame_folder = "frames" + datetime.datetime.now().strftime("%m%d-%H%M")
     # frames = extract_frames(vid_path, save_images_path=frame_folder)
-    train_df = frame_data_df_from_folder(frame_folder)
-    train_df.to_csv("train_df.csv", index=False)
 
+    print(get_all_user_folders())
+
+    frame_folder = "frames0707-1517"
+    # extract_all_frames(frame_folder)
+    train_df = frame_data_df_from_folder(frame_folder)
+    train_df.to_csv(os.path.join(frame_folder, f"{frame_folder[6:]}.csv"), index=False)
 
