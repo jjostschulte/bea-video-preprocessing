@@ -274,5 +274,8 @@ if __name__ == '__main__':
     # calc_vid_start(36, "00:19:15", 1665473863481)
     # calc_vid_start(37, "00:24:31", 1665481524958) # a bit too early like this
     # calc_vid_start(37, "00:25:07", 1665481509648)
+    # calc_vid_start(38, "00:08:20", 1665484832856, True)
+    # calc_vid_start(39, "00:15:36", 1665490325197, True)  # a bit late
+    calc_vid_start(40, "00:24:12", 1665535499710, True)
 
-    #split_video(9)
+    # split_video(10)
