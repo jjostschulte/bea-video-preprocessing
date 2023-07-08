@@ -288,7 +288,12 @@ if __name__ == '__main__':
     # calc_vid_start(47, "00:10:29", 1665564825962, True)
     # calc_vid_start(47, "00:15:12", 1665565108640, True)  # bit too early
     # calc_vid_start(47, "00:21:19", 1665565476424, True)
-    calc_vid_start(48, "00:16:51", 1665568339555, True)
+    # calc_vid_start(48, "00:16:51", 1665568339555, True)
+    # calc_vid_start(49, "00:21:00", 1665632570727, True)
+    # calc_vid_start(50, "00:18:25", 1665635874663, True)
+    # calc_vid_start(50, "00:18:57", 1665635906433, True)
+    # calc_vid_start(51, "00:24:28", 1665639815906, True)
+    calc_vid_start(51, "00:30:03", 1665640149772, True)
 
 
     # split_video(10)
