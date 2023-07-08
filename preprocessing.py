@@ -276,6 +276,19 @@ if __name__ == '__main__':
     # calc_vid_start(37, "00:25:07", 1665481509648)
     # calc_vid_start(38, "00:08:20", 1665484832856, True)
     # calc_vid_start(39, "00:15:36", 1665490325197, True)  # a bit late
-    calc_vid_start(40, "00:24:12", 1665535499710, True)
+    # calc_vid_start(40, "00:24:12", 1665535499710, True)
+    # calc_vid_start(41, "00:34:22", 1665543229014, True)
+    # calc_vid_start(42, "00:20:41", 1665546977602, True)
+    # calc_vid_start(43, "00:06:52", 1665550514316, True)
+    # calc_vid_start(44, "00:06:52", 1665553388592, True)
+    # calc_vid_start(45, "00:14:10", 1665558028545, True)
+    # calc_vid_start(45, "00:13:28", 1665557985901, True)
+    # calc_vid_start(46, "00:11:49", 1665561726574, True)  # below is better
+    # calc_vid_start(46, "00:11:12", 1665561689516, True)
+    # calc_vid_start(47, "00:10:29", 1665564825962, True)
+    # calc_vid_start(47, "00:15:12", 1665565108640, True)  # bit too early
+    # calc_vid_start(47, "00:21:19", 1665565476424, True)
+    calc_vid_start(48, "00:16:51", 1665568339555, True)
+
 
     # split_video(10)
