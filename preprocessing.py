@@ -318,6 +318,7 @@ if __name__ == '__main__':
     # calc_vid_start(17, "00:08:34", 1664987057424, True)
     # calc_vid_start(18, "00:19:52", 1665104128090, True)
     # calc_vid_start(19, "00:08:24", 1665108992374, True)
-    calc_vid_start(25, "00:20:34", 1665380499897, True)
+    # calc_vid_start(25, "00:20:34", 1665380499897, True)
+    calc_vid_start(26, "00:18:21", 1665385036325, True)
 
     # split_video(10)
