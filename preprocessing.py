@@ -139,8 +139,12 @@ def calc_vid_start(user, click_time, t3_millis, print_command=True, print_mclick
 def print_trim_command(user, video_start):
     if user>60:
         user = users[user]
-    duration = time_from_start(bea_ms[user], bea_ends_ms[user])
-    video_end = video_start+duration
+    try:
+        duration = time_from_start(bea_ms[user], bea_ends_ms[user])
+        video_end = video_start+duration
+    except TypeError:
+        print("No end time found for user", str(user))
+        video_end = datetime.fromtimestamp(0)
     print(
         "ffmpeg -ss "+
         str(video_start.strftime("%H:%M:%S"))+
@@ -303,7 +307,8 @@ if __name__ == '__main__':
     # calc_vid_start(57, "00:42:33", 1665712122486, True)
     # calc_vid_start(58, "00:19:32", 1665715999040, True)
     # calc_vid_start(59, "00:19:35", 1665718907344, True)
-    calc_vid_start(60, "00:28:48", 1665726204449, True)
+    # calc_vid_start(60, "00:28:48", 1665726204449, True)
+    calc_vid_start(2, "00:41:01", 1664866017785, True)
 
 
     # split_video(10)
