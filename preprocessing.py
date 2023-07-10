@@ -180,9 +180,11 @@ def get_key_from_value(d, val):
         return keys[0]
     return None
 
+
 def split_video(user):
     if user>60:
         user = users[user]
+    print("==== Splitting Video for User", str(user).zfill(3), "====")
     folder_name = str(user).zfill(3) + "-" + str(get_key_from_value(users, user))
     vid_name = folder_name + ".mp4"
     vid_dir = "/Users/jonas/Movies/BEA-Videos/cut"
@@ -319,6 +321,8 @@ if __name__ == '__main__':
     # calc_vid_start(18, "00:19:52", 1665104128090, True)
     # calc_vid_start(19, "00:08:24", 1665108992374, True)
     # calc_vid_start(25, "00:20:34", 1665380499897, True)
-    calc_vid_start(26, "00:18:21", 1665385036325, True)
+    # calc_vid_start(26, "00:18:21", 1665385036325, True)
 
     # split_video(10)
+    for session_id, user_nr in users.items():
+        split_video(user_nr)
