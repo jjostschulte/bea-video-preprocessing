@@ -249,7 +249,8 @@ if __name__ == '__main__':
     input_video_names=file_names
 
     t1s, t2s, t3s = create_millis_arrays()
-    # calc_vid_start(6, "00:13:03", 1664926163248, True)
+    # calc_vid_start(6, "00:13:03", 1664926163248, True)  # 1s late if split
+    # calc_vid_start(6, "00:13:04", 1664926163248, True)
     # calc_vid_start(7, "00:12:13", 1664929671091, True)  # 1s late
     # calc_vid_start(7, "00:12:14", 1664929671091, True)
     # calc_vid_start(8, "00:05:28", 1664932948069, True)
@@ -261,15 +262,19 @@ if __name__ == '__main__':
     # calc_vid_start(11, "00:09:42", 1664944065813, True)
     # calc_vid_start(15, "00:17:12", 1664961815381, True) # 2s late
     # calc_vid_start(15, "00:17:14", 1664961815381, True)
-    # calc_vid_start(16, "00:14:29", 1664966044062, True)
-    # calc_vid_start(20, "00:10:19", 1665113477027, True)
-    # calc_vid_start(21, "00:15:30", 1665362317978, True)
+    # calc_vid_start(16, "00:14:29", 1664966044062, True) # 1s late if split
+    # calc_vid_start(16, "00:14:30", 1664966044062, True)
+    # calc_vid_start(20, "00:10:19", 1665113477027, True) # 1s late if split
+    # calc_vid_start(20, "00:10:20", 1665113477027, True)
+    # calc_vid_start(21, "00:15:30", 1665362317978, True) # 1s late if split
+    # calc_vid_start(21, "00:15:31", 1665362317978, True)
     # calc_vid_start(22, "00:05:00", 1665365764399)
     # calc_vid_start(23, "00:08:30", 1665369048496)
     # calc_vid_start(24, "00:23:23", 1665373310384)
     # calc_vid_start(27, "00:09:07", 1665392621583)
     # calc_vid_start(28, "00:09:01", 1665396729110)
-    # calc_vid_start(1, "00:12:47", 1665446215966)
+    # calc_vid_start(1, "00:12:47", 1665446215966)  # 2s late if split
+    # calc_vid_start(1, "00:12:49", 1665446215966)
     # calc_vid_start(29, "00:06:49", 1665448915367)
     # calc_vid_start(30, "00:20:19", 1665452638896)
     # calc_vid_start(31, "00:03:58", 1665455991577)
@@ -313,16 +318,18 @@ if __name__ == '__main__':
     # calc_vid_start(2, "00:41:01", 1664866017785, True)
     # calc_vid_start(3, "00:26:22", 1664870507883, True)
     # calc_vid_start(4, "00:22:34", 1664876026803, True)
-    # calc_vid_start(5, "00:22:31", 1664879600953, True)
+    # calc_vid_start(5, "00:22:31", 1664879600953, True)  # 1s late if split
+    # calc_vid_start(5, "00:22:32", 1664879600953, True)
     # calc_vid_start(12, "00:26:15", 1664948990308, True)
     # calc_vid_start(13, "00:15:31", 1664952563519, True)
-    # calc_vid_start(14, "00:19:08", 1664958366441, True)
+    # calc_vid_start(14, "00:19:08", 1664958366441, True)  # when split 1s late
+    # calc_vid_start(14, "00:19:09", 1664958366441, True)
     # calc_vid_start(17, "00:08:34", 1664987057424, True)
-    # calc_vid_start(18, "00:19:52", 1665104128090, True)
-    # calc_vid_start(19, "00:08:24", 1665108992374, True)
+    # calc_vid_start(18, "00:19:52", 1665104128090, True) # when split 1s late
+    # calc_vid_start(18, "00:19:53", 1665104128090, True)
+    # calc_vid_start(19, "00:08:24", 1665108992374, True) # when split 1s late
+    # calc_vid_start(19, "00:08:24", 1665108991874, True)
     # calc_vid_start(25, "00:20:34", 1665380499897, True)
     # calc_vid_start(26, "00:18:21", 1665385036325, True)
 
-    # split_video(10)
-    for session_id, user_nr in users.items():
-        split_video(user_nr)
+    # split_video(21)
