@@ -303,20 +303,24 @@ if __name__ == '__main__':
     # calc_vid_start(39, "00:15:36", 1665490325197, True)  # a bit late # 1s late if split
     # calc_vid_start(39, "00:15:37", 1665490325197, True, False)
     # calc_vid_start(40, "00:24:12", 1665535499710, True)  # 0.5s-1s late if split
-    calc_vid_start(40, "00:24:12", 1665535499210, True, False)
+    # calc_vid_start(40, "00:24:12", 1665535499210, True, False)
     # calc_vid_start(41, "00:34:22", 1665543229014, True)
     # calc_vid_start(42, "00:20:41", 1665546977602, True)
     # calc_vid_start(43, "00:06:52", 1665550514316, True)
-    # calc_vid_start(44, "00:06:52", 1665553388592, True)
+    # calc_vid_start(44, "00:06:52", 1665553388592, True)  # 0.5s late if split
+    # calc_vid_start(44, "00:06:52", 1665553388392, True, False)
     # calc_vid_start(45, "00:14:10", 1665558028545, True)
     # calc_vid_start(45, "00:13:28", 1665557985901, True)
     # calc_vid_start(46, "00:11:49", 1665561726574, True)  # below is better
-    # calc_vid_start(46, "00:11:12", 1665561689516, True)
+    # calc_vid_start(46, "00:11:12", 1665561689516, True)  # 1.5s late if split
+    # calc_vid_start(46, "00:11:13", 1665561689016, True, False)
     # calc_vid_start(47, "00:10:29", 1665564825962, True)
     # calc_vid_start(47, "00:15:12", 1665565108640, True)  # bit too early
     # calc_vid_start(47, "00:21:19", 1665565476424, True)
-    # calc_vid_start(48, "00:16:51", 1665568339555, True)
-    # calc_vid_start(49, "00:21:00", 1665632570727, True)
+    # calc_vid_start(48, "00:16:51", 1665568339555, True)  # 0.5s late if split
+    # calc_vid_start(48, "00:16:52", 1665568339155, True, False)
+    # calc_vid_start(49, "00:21:00", 1665632570727, True)  # 1s late if split
+    # calc_vid_start(49, "00:21:01", 1665632570727, True, False)
     # calc_vid_start(50, "00:18:25", 1665635874663, True)
     # calc_vid_start(50, "00:18:57", 1665635906433, True)
     # calc_vid_start(51, "00:24:28", 1665639815906, True)
@@ -326,7 +330,8 @@ if __name__ == '__main__':
     # calc_vid_start(53, "00:34:34", 1665648303534, True)
     # calc_vid_start(54, "00:26:37", 1665651569534, True)
     # calc_vid_start(55, "00:22:07", 1665654187084, True)
-    # calc_vid_start(56, "00:21:27", 1665705250641, True)
+    # calc_vid_start(56, "00:21:27", 1665705250641, True)  # 0.8s late if split
+    calc_vid_start(56, "00:21:27", 1665705250341, True, False)
     # calc_vid_start(57, "00:42:33", 1665712122486, True)
     # calc_vid_start(58, "00:19:32", 1665715999040, True)
     # calc_vid_start(59, "00:19:35", 1665718907344, True)
@@ -350,4 +355,4 @@ if __name__ == '__main__':
     # calc_vid_start(26, "00:18:21", 1665385036325, True)
 
     if 0:
-        split_video(40)
+        split_video(56)
