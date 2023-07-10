@@ -3,3 +3,4 @@ numpy
 pandas
 loguru
 matplotlib
+scikit-learn
