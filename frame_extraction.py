@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import re
 import datetime
+from split_data import train_dev_test_split
 
 
 def extract_frames(video_path, save_images_path=None, target_fps=5):
@@ -135,12 +136,15 @@ def get_all_user_folders(root_folder="."):
     return sorted(user_folders)
 
 
-def extract_all_frames(frame_target_folder, video_folder=".", exclude_videos=None):
+def extract_all_frames(frame_target_folder, video_folder=".", exclude_videos=None, user_folders=None):
     """
     Create all frames for all videos in the dataset
     :return: void
     """
-    user_folders = get_all_user_folders(video_folder)
+    if user_folders is None:
+        user_folders = get_all_user_folders(video_folder)
+    else:
+        user_folders = [video_folder + "/" + folder for folder in user_folders]
     for user_folder in user_folders:
         logger.info(f"Processing user folder {user_folder}")
         video_paths = [os.path.join(user_folder, video_name) for video_name in os.listdir(user_folder) if video_name.endswith('.mp4')]
@@ -162,10 +166,18 @@ if __name__ == '__main__':
 
     # print(get_all_user_folders("preprocessed"))
 
-    extract_all_frames(frame_folder, video_folder="preprocessed", exclude_videos=videos_to_exclude)
+    frame_folder = "/Volumes/Crucial X6/denis/train"
+    train_users, dev_users, test_users = train_dev_test_split()
+
+    # extract train frames
+    extract_all_frames(frame_folder, video_folder="preprocessed", exclude_videos=videos_to_exclude,
+                       user_folders=train_users)
 
     train_df = frame_data_df_from_folder(frame_folder)
-    train_df.to_csv(os.path.join(frame_folder, f"{frame_folder[6:]}.csv"), index=False)
+    train_df.to_csv(os.path.join(frame_folder, f"train.csv"), index=False)
+
+
+
 
     # frame_folder = "frames0707-1517"
     # extract_all_frames(frame_folder)
