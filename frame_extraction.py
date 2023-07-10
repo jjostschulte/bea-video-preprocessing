@@ -21,6 +21,7 @@ def extract_frames(video_path, save_images_path=None, target_fps=5):
         video_paths = [os.path.join(video_path, video_name) for video_name in os.listdir(video_path) if video_name.endswith('.mp4')]
     video_frames = []
     for video_path in video_paths:
+        logger.info(f"Extracting frames from {video_path}")
         video = cv2.VideoCapture(video_path)
         fps = int(video.get(cv2.CAP_PROP_FPS))  # Get the frame rate of the video
         # print(fps)
@@ -34,8 +35,6 @@ def extract_frames(video_path, save_images_path=None, target_fps=5):
                 return []
             # times = calculate_frame_times(duration)
             times = np.arange(0, duration, 1 / target_fps)
-            print(times)
-            print(len(times))
 
         # Convert the time points to frame indices
         frames = [int(time * fps) for time in times]
@@ -48,7 +47,7 @@ def extract_frames(video_path, save_images_path=None, target_fps=5):
             ret, frame = video.read()
 
             if not ret:  # Check if the frame was successfully read
-                print(f'Error reading frame at {seconds} seconds')
+                logger.error(f'Error reading frame at {seconds} seconds')
                 continue
 
             frames_list.append(frame)
@@ -56,14 +55,14 @@ def extract_frames(video_path, save_images_path=None, target_fps=5):
             if save_images_path:
                 if not os.path.exists(save_images_path):
                     os.makedirs(save_images_path)
-                img_name = f'{video_path[10:-4]}_frame_{str(frame_idx).zfill(3)}.png'
+                img_name = f'{video_path[23:-4]}_frame_{str(frame_idx).zfill(3)}.png'
                 save_path = os.path.join(save_images_path, img_name)
                 # print(save_path)
 
                 # plt.imshow(frame)
                 # plt.imsave(save_path, frame)
                 if not cv2.imwrite(save_path, frame):
-                    raise Exception("Could not write image")
+                    raise Exception(f"Could not write image to {save_path}")
 
         video.release()
         video_frames.append((video_path, np.array(frames_list)))
@@ -127,25 +126,28 @@ def frame_data_df_from_folder(folder_path):
     return df
 
 
-def get_all_user_folders():
+def get_all_user_folders(root_folder="."):
     """
     :return: list of all user folders in the dataset
     """
-    all_folders = os.listdir()
-    user_folders = [folder for folder in all_folders if folder.startswith("0")]
+    all_folders = os.listdir(root_folder)
+    user_folders = [root_folder + "/" + folder for folder in all_folders if folder.startswith("0")]
     return sorted(user_folders)
 
 
-def extract_all_frames(frame_target_folder):
+def extract_all_frames(frame_target_folder, video_folder=".", exclude_videos=None):
     """
     Create all frames for all videos in the dataset
     :return: void
     """
-    user_folders = get_all_user_folders()
+    user_folders = get_all_user_folders(video_folder)
     for user_folder in user_folders:
         logger.info(f"Processing user folder {user_folder}")
         video_paths = [os.path.join(user_folder, video_name) for video_name in os.listdir(user_folder) if video_name.endswith('.mp4')]
         for video_path in sorted(video_paths):
+            if video_path in exclude_videos:
+                logger.info(f"Skipping video {video_path}")
+                continue
             # save frames to folder
             extract_frames(video_path, save_images_path=frame_target_folder)
 
@@ -156,10 +158,14 @@ if __name__ == '__main__':
     frame_folder = "frames" + datetime.datetime.now().strftime("%m%d-%H%M")
     # frames = extract_frames(vid_path, save_images_path=frame_folder)
 
-    print(get_all_user_folders())
+    videos_to_exclude = pd.read_csv("ignore-videos.txt", header=None)[0].tolist()
 
-    frame_folder = "frames0707-1517"
-    # extract_all_frames(frame_folder)
+    # print(get_all_user_folders("preprocessed"))
+
+    extract_all_frames(frame_folder, video_folder="preprocessed", exclude_videos=videos_to_exclude)
+
     train_df = frame_data_df_from_folder(frame_folder)
     train_df.to_csv(os.path.join(frame_folder, f"{frame_folder[6:]}.csv"), index=False)
 
+    # frame_folder = "frames0707-1517"
+    # extract_all_frames(frame_folder)
