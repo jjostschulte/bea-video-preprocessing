@@ -116,7 +116,7 @@ def frame_data_df_from_folder(folder_path):
             q3 = int(match.group(7))
             frame_number = int(match.group(8))
 
-            new_row = {"video_name": file_name[:-14] + ".mp4",
+            new_row = {"video_name": file_name[:-14] + ".mp4",  # -14 to remove "_frame_XXX.png"
                             "frame_num": frame_number,
                             "file_name": file_name,
                             "q1": q1,
