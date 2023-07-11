@@ -145,6 +145,7 @@ def extract_all_frames(frame_target_folder, video_folder=".", exclude_videos=Non
         user_folders = get_all_user_folders(video_folder)
     else:
         user_folders = [video_folder + "/" + folder for folder in user_folders]
+    logger.info(f"Processing folders: {user_folders}")
     for user_folder in user_folders:
         logger.info(f"Processing user folder {user_folder}")
         video_paths = [os.path.join(user_folder, video_name) for video_name in os.listdir(user_folder) if video_name.endswith('.mp4')]
@@ -166,18 +167,31 @@ if __name__ == '__main__':
 
     # print(get_all_user_folders("preprocessed"))
 
-    frame_folder = "/Volumes/Crucial X6/denis/train"
+    frame_folder = "/Volumes/Crucial X6/denis/train2"
     train_users, dev_users, test_users = train_dev_test_split()
 
     # extract train frames
-    extract_all_frames(frame_folder, video_folder="preprocessed", exclude_videos=videos_to_exclude,
-                       user_folders=train_users)
+    #extract_all_frames(frame_folder, video_folder="preprocessed", exclude_videos=videos_to_exclude,
+    #                   user_folders=train_users)
 
-    train_df = frame_data_df_from_folder(frame_folder)
-    train_df.to_csv(os.path.join(frame_folder, f"train.csv"), index=False)
+    #train_df = frame_data_df_from_folder(frame_folder)
+    #train_df.to_csv(os.path.join(frame_folder, f"train.csv"), index=False)
 
+    # extract dev frames
+    dev_folder = "/Volumes/Crucial X6/denis/dev"
+    logger.info(f"Extracting dev frames to {dev_folder}")
+    extract_all_frames(dev_folder, video_folder="preprocessed", exclude_videos=videos_to_exclude,
+                       user_folders=dev_users)
+    dev_df = frame_data_df_from_folder(dev_folder)
+    dev_df.to_csv(os.path.join(dev_folder, f"dev.csv"), index=False)
 
-
+    # extract test frames
+    test_folder = "/Volumes/Crucial X6/denis/test"
+    logger.info(f"Extracting test frames to {test_folder}")
+    extract_all_frames(test_folder, video_folder="preprocessed", exclude_videos=videos_to_exclude,
+                       user_folders=test_users)
+    test_df = frame_data_df_from_folder(test_folder)
+    test_df.to_csv(os.path.join(test_folder, f"test.csv"), index=False)
 
     # frame_folder = "frames0707-1517"
     # extract_all_frames(frame_folder)
